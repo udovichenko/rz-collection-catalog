@@ -11,7 +11,7 @@ const imgListUrl = `${siteUrl}/tech/all-images-list`
 fs.mkdirSync(buildDir, { recursive: true })
 fs.mkdirSync(imgDir, { recursive: true })
 
-const imgListFilePath = `${buildDir}/images-list.json`
+const imgListFilePath = `${buildDir}/img-list.js`
 const urlList = await (await fetch(imgListUrl)).json()
 
 let imgList = urlList.filter((url) => !!url && url)
@@ -26,7 +26,7 @@ imgList = imgList.map((imgPath) => {
 	}
 })
 
-fs.writeFileSync(imgListFilePath, JSON.stringify(imgList, null, 2))
+fs.writeFileSync(imgListFilePath, `export default ${JSON.stringify(imgList, null, 2)}`)
 
 await Promise.all(
 	imgList.map(async (img) => {
