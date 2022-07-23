@@ -1,5 +1,8 @@
 {
   "type": "module",
+	"scripts": {
+		"prepare": "node src/utils/prepare.js"
+	},
   "devDependencies": {
     "node-fetch": "^3.2.9"
   }
