@@ -1,5 +1,13 @@
+body {
+	margin: 0;
+	position: relative;
+	background: black;
+}
+
 .layer {
-	width: 30px;
-	height: 70vh;
+	position: absolute;
 	object-fit: cover;
+	object-position: right;
+	display: block;
+	float: left;
 }
