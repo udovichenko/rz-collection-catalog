@@ -1,11 +1,11 @@
 import imgList from '../build/img-list.js'
 
 const offset = 155
-const limit = 50
-const leftMarginStep = 22
-const topMarginStep = 8
-const sizeStep = 0.3
-const sizeBiggest = 60
+const limit = 72
+const leftMarginStep = 15
+const topMarginStep = 5
+const sizeStep = 0
+const sizeBiggest = 150
 
 let counter = 0
 let offsetCounter = 0
