@@ -14,14 +14,15 @@ fs.mkdirSync(imgDir, { recursive: true })
 const imgListFilePath = `${buildDir}/img-list.js`
 const urlList = await (await fetch(imgListUrl)).json()
 
-let imgList = urlList.filter((url) => !!url && url)
-imgList = imgList.map((imgPath) => {
-	if (imgPath) {
+let imgList = urlList.filter((img) => !!img.src && img)
+imgList = imgList.map(({ id, src }) => {
+	if (src) {
 		return {
-			url: `${siteUrl}${imgPath}`,
-			imgPath,
-			filename: path.basename(imgPath),
-			localPath: path.join(imgDir, path.basename(imgPath))
+			id,
+			url: `${siteUrl}${src}`,
+			imgPath: src,
+			filename: path.basename(src),
+			localPath: path.join(imgDir, path.basename(src))
 		}
 	}
 })
