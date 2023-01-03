@@ -2,7 +2,7 @@ prepare:
 	node src/utils/prepare.js
 
 dev:
-	browser-sync start --server . -f src build --startPath src/index.html
+	browser-sync start --server . -f src build --startPath ./index.html
 
 img-resize:
 	echo "Initial subcategories images size `du -sh build/artworks/`"
