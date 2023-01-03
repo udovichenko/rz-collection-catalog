@@ -13,10 +13,4 @@ export default async function penrose() {
 	console.log(patterns)
 
 	drawPenroseTiling({ container, patterns, canvas, ctx })
-
-	// function fillCanvasWithImage(image, canvas, context) {
-	// 	let pattern = context.createPattern(image, 'no-repeat')
-	// 	context.fillStyle = pattern
-	// 	context.fillRect(0, 0, canvas.width, canvas.height)
-	// }
 }

@@ -1,69 +1,18 @@
 // tile the canvas with penrose tiles
 export function drawPenroseTiling({ container, patterns, canvas, ctx }) {
-	const DEPTH = 7
-	const COLOR_SETS = {
-		ROYAL: {
-			T: '#e8cd20',
-			W: '#8f1b46',
-			LINE: '#000'
-		},
-		ROSE: {
-			T: '#03c4a1',
-			W: '#c62a88',
-			LINE: '#000'
-		},
-		BEACH: {
-			T: '#e8ffc1',
-			W: '#51adcf',
-			LINE: '#000'
-		},
-		PEACHY: {
-			T: '#21bf73',
-			W: '#fd5e53',
-			LINE: '#000'
-		},
-		LAVANDER: {
-			T: '#e5df88',
-			W: '#a37eba',
-			LINE: '#000'
-		},
-		PURP: {
-			T: '#43d8c9',
-			W: '#8d4a94',
-			LINE: '#000'
-		},
-		BRONZE: {
-			T: '#c87941',
-			W: '#87431d',
-			LINE: '#000'
-		},
-		PERFECT: {
-			T: '#0f0',
-			W: '#f0f',
-			LINE: '#000'
-		},
-		GREY: {
-			T: '#ccc',
-			W: '#666',
-			LINE: '#000'
-		}
-	}
-
+	const DEPTH = 5
 	const PHI = (1 + Math.sqrt(5)) / 2
-	const PHI_SQ = PHI * PHI
-	const TRI_T_HEIGHT = Math.sqrt(PHI_SQ - 0.25)
-	const TRI_W_HEIGHT = PHI * Math.sqrt(1 - PHI_SQ / 4)
+	// const PHI_SQ = PHI * PHI
+	// const TRI_T_HEIGHT = Math.sqrt(PHI_SQ - 0.25)
+	// const TRI_W_HEIGHT = PHI * Math.sqrt(1 - PHI_SQ / 4)
 	const RATIO_T = 1 - 1 / PHI
 	const RATIO_W = PHI / (PHI + 1)
 
 	let verts
 	let tris
 	let invalidated
-	let colors
-	let currentColorSet
 
 	function init() {
-		randomizeColorSet(true)
 		generate()
 		invalidated = true
 	}
@@ -92,22 +41,6 @@ export function drawPenroseTiling({ container, patterns, canvas, ctx }) {
 		for (let i = 0; i < DEPTH; i++) {
 			runDeflation()
 		}
-	}
-
-	function randomizeColorSet(init) {
-		const keys = Object.keys(COLOR_SETS)
-		let key
-		let repeatedKey, badStartingColor
-		let tries = 0
-		do {
-			key = keys[Math.floor(Math.random() * keys.length)]
-			repeatedKey = key === currentColorSet
-			badStartingColor = init && (key === 'PERFECT')
-			tries++
-		} while (tries < 20 && (repeatedKey || badStartingColor))
-		currentColorSet = key
-		colors = COLOR_SETS[key]
-		invalidated = true
 	}
 
 	function initTris() {
@@ -227,15 +160,13 @@ export function drawPenroseTiling({ container, patterns, canvas, ctx }) {
 			ctx.lineTo(b.x + offset, b.y + offset)
 			ctx.lineTo(c.x + offset, c.y + offset)
 			ctx.closePath()
-			ctx.fill()
 
-			ctx.strokeStyle = colors.LINE
-			ctx.lineWidth = 0
-			ctx.beginPath()
-			ctx.moveTo(a.x + offset, a.y + offset)
-			ctx.lineTo(c.x + offset, c.y + offset)
-			ctx.lineTo(b.x + offset, b.y + offset)
-			// ctx.stroke()
+			ctx.save()
+			const randPatternOffsetX = Math.floor(Math.random() * 1000)
+			const randPatternOffsetY = Math.floor(Math.random() * 1000)
+			ctx.translate(randPatternOffsetX, randPatternOffsetY)
+			ctx.fill()
+			ctx.restore()
 		})
 	}
 
@@ -267,9 +198,7 @@ export function drawPenroseTiling({ container, patterns, canvas, ctx }) {
 		requestAnimationFrame(_drawLoop)
 	}
 
-	console.clear()
 	_setCanvasSize()
 	init()
 	_drawLoop()
-
 }
