@@ -1,10 +1,11 @@
-import { drawImgList } from './lib/imgList.js'
 import { drawPenroseTiling } from './lib/penrose.js'
 import getImageList from './modules/getImageList.js'
 import createPatternsFromImages from './modules/createPatternsFromImages.js'
 
-export default async function penrose() {
-	const images = getImageList()
+async function penrose() {
+	const LIMIT = 20
+
+	const images = getImageList({ iterations: LIMIT })
 	const container = document.getElementById('container')
 	const canvas = document.getElementById('canvas')
 	const ctx = canvas.getContext('2d')
@@ -14,3 +15,5 @@ export default async function penrose() {
 
 	drawPenroseTiling({ container, patterns, canvas, ctx })
 }
+
+await penrose()

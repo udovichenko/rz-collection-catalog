@@ -1,6 +1,7 @@
-export default async function createPatternsFromImages({ ctx, images }) {
+export default async function createPatternsFromImages({ ctx, images } = {}) {
 	return await Promise.all(
-		images.map((img) => {
+		images
+			.map((img) => {
 			return new Promise((resolve) => {
 				const image = new Image()
 				image.src = img

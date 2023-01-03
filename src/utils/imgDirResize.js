@@ -3,8 +3,8 @@ import { imgResize } from './imgResize.js'
 
 const SRC_DIR = process.argv[2]
 const DEST_DIR = process.argv[3]
-const WIDTH = 1000
-const QUALITY = 70
+const WIDTH = 1500
+const QUALITY = 98
 
 const imgDirResize = function (srcDir) {
 	const files = fs.readdirSync(srcDir)

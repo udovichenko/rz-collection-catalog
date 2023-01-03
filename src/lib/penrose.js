@@ -1,6 +1,6 @@
 // tile the canvas with penrose tiles
 export function drawPenroseTiling({ container, patterns, canvas, ctx }) {
-	const DEPTH = 5
+	const DEPTH = 7
 	const PHI = (1 + Math.sqrt(5)) / 2
 	// const PHI_SQ = PHI * PHI
 	// const TRI_T_HEIGHT = Math.sqrt(PHI_SQ - 0.25)
