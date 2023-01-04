@@ -1,4 +1,4 @@
-export default function getAvgPixelColor(ctx, startX, startY, size) {
+export default function getAvgPixelColor(ctx, startX, startY, size, everyNthPixel = 1) {
 	const imageData = ctx.getImageData(startX, startY, size, size)
 	const data = imageData.data
 	let i = 0
@@ -9,7 +9,7 @@ export default function getAvgPixelColor(ctx, startX, startY, size) {
 	let b = 0
 	let a = 0
 
-	while ((i += 4) < data.length) {
+	while ((i += 4 * everyNthPixel) < data.length) {
 		r += data[i]
 		g += data[i + 1]
 		b += data[i + 2]

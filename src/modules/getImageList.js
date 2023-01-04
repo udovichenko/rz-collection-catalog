@@ -15,7 +15,6 @@ export default function getImageList({ iterations = 100, offset = 0, dir = 'artw
 	return imgList
 		.filter((img) => {
 			if (skipIds.includes(+img.id)) return false
-			// console.log('img.id', img.id)
 			if (counter < offset) return false
 			if (counter > offset + iterations) return false
 			counter++
@@ -23,7 +22,7 @@ export default function getImageList({ iterations = 100, offset = 0, dir = 'artw
 		})
 		.sort(() => Math.random() - 0.5) // shuffle images
 		.map((img) => {
-			console.log(`${img.id}: http://localhost:3000/build/${dir}/${img.filename}`)
+			// console.log(`${img.id}: http://localhost:3000/build/${dir}/${img.filename}`)
 			return `build/${dir}/${img.filename}`
 		})
 }

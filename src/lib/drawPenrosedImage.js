@@ -18,11 +18,6 @@ export function drawPenrosedImage({ width, height, patterns, ctx, imageCtx }) {
 		invalidated = true
 	}
 
-	const onResize = () => {
-		generate()
-		invalidated = true
-	}
-
 	function draw() {
 		if (invalidated) {
 			ctx.fillStyle = '#000'
@@ -147,6 +142,8 @@ export function drawPenrosedImage({ width, height, patterns, ctx, imageCtx }) {
 		return patterns[Math.floor(Math.random() * patterns.length)]
 	}
 
+	window.aaa = []
+
 	function drawPass(antialias) {
 		let offset = antialias ? 0.5 : 0
 		tris.forEach((tri) => {
@@ -170,10 +167,10 @@ export function drawPenrosedImage({ width, height, patterns, ctx, imageCtx }) {
 			const ycNorm = yc + height / 2
 
 			const avgColor = getAvgPixelColor(imageCtx, xcNorm - size / 2, ycNorm - size / 2, size)
-			window.imageCtx = imageCtx
-			// const avgLightness = getLightnessFromRgb(avgColor)
+			const avgLightness = getLightnessFromRgb(avgColor)
 
 			ctx.save()
+			// ctx.fillStyle = `rgb(${avgLightness}, ${avgLightness}, ${avgLightness})`
 			ctx.fillStyle = `rgb(${avgColor.r}, ${avgColor.g}, ${avgColor.b})`
 			// ctx.fillStyle = randPattern(patterns)
 			// const randPatternOffsetX = Math.floor(Math.random() * 1000)
