@@ -31,3 +31,7 @@ body {
 .isBottom {
 	bottom: 0;
 }
+
+canvas {
+	display: block;
+}
