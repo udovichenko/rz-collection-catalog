@@ -9,13 +9,12 @@ export default async function getImageAvgColor(imageSrc, size = 4) {
 	image.src = imageSrc
 
 	await image.decode()
-	console.log(image)
 	ctx.drawImage(image, 0, 0, size, size)
 
 	const { r, g, b, a } = getAvgPixelColor(ctx, 0, 0, size)
 	const l = ~~getLightnessFromRgb({ r, g, b })
 
-	console.log({ r, g, b, a, l })
+	// console.log({ r, g, b, a, l })
 
 	return { r, g, b, a, l }
 }

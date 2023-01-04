@@ -2,6 +2,7 @@ import getImageList from './modules/getImageList.js'
 import createPatternsFromImages from './modules/createPatternsFromImages.js'
 import { drawPenrosedImage } from './lib/drawPenrosedImage.js'
 import getImageAvgColor from './lib/getImageAvgColor.js'
+import createPatternsFromImagesWithMeta from './modules/createPatternsFromImagesWithMeta.js'
 
 async function penrosed(src) {
 	const LIMIT = 10
@@ -10,7 +11,9 @@ async function penrosed(src) {
 	const canvas = document.getElementById('canvas')
 	const ctx = canvas.getContext('2d')
 	const { width, height } = canvas
-	const patterns = await createPatternsFromImages({ ctx, images })
+	const patterns = await createPatternsFromImagesWithMeta({ ctx, images })
+	
+	console.log('patterns', patterns)
 
 	// const imageCanvas = new OffscreenCanvas(width, height)
 	const imageCanvas = document.getElementById('underlay')

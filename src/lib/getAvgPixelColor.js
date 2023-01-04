@@ -20,6 +20,7 @@ export default function getAvgPixelColor(ctx, startX, startY, size, everyNthPixe
 	r = ~~(r / count)
 	g = ~~(g / count)
 	b = ~~(b / count)
+	a = ~~(a / count)
 
 	return { r, g, b, a }
 }
