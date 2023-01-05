@@ -2,23 +2,18 @@ import getImageList from './modules/getImageList.js'
 import { drawPenrosedImage } from './lib/drawPenrosedImage.js'
 import getImageAvgColor from './lib/getImageAvgColor.js'
 import createPatternsFromImagesWithMeta from './modules/createPatternsFromImagesWithMeta.js'
-import drawArcs from './lib/drawArcs.js'
 import setupCanvas from './lib/setupCanvas.js'
 import renderPreviews from './lib/renderPreviews.js'
 
 async function penrosed(src) {
-	const maxPatternsCount = 250
+	const maxPatternsCount = 350
 	const patternsOffset = 0
-	// const arcCount = 50
-	const width = 2000
-	const height = 3000
-	const details = 6.5
+	const width = 2150 * 1.5
+	const height = 2750 * 1.5
+	const details = 7
 	const noise = 0.4
-	const darken = 0.55
-
-	// if (arcCount > maxPatternsCount) {
-	// 	throw new Error(`arcCount (${arcCount}) cannot be greater than maxPatternsCount (${maxPatternsCount})`)
-	// }
+	const darken = 0.99
+	const lighten = 0.25
 
 	const { ctx } = setupCanvas({ id: 'canvas', width, height })
 	const { ctx: underlayCtx } = setupCanvas({ id: 'underlay', width, height })
@@ -40,6 +35,9 @@ async function penrosed(src) {
 
 	// drawArcs({ patterns: underlayPatterns, ctx: underlayCtx, width, height, count: arcCount })
 	underlayCtx.fillStyle = `rgba(0, 0, 0, ${darken})`
+	underlayCtx.fillRect(0, 0, width, height)
+
+	underlayCtx.fillStyle = `rgba(255, 255, 255, ${lighten})`
 	underlayCtx.fillRect(0, 0, width, height)
 
 	drawPenrosedImage({ width, height, ctx, imageCtx: underlayCtx, patterns, details, noise })

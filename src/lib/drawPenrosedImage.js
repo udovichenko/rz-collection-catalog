@@ -178,7 +178,6 @@ export function drawPenrosedImage({ width, height, patterns, ctx, imageCtx, deta
 			ctx.translate(randPatternOffsetX, randPatternOffsetY)
 			ctx.fill()
 			ctx.restore()
-
 		})
 	}
 
