@@ -8,7 +8,10 @@ export default async function getImageAvgColor(imageSrc, size = 4) {
 	const image = new Image()
 	image.src = imageSrc
 
-	await image.decode()
+	await new Promise((resolve) => {
+		image.onload = resolve
+	})
+
 	ctx.drawImage(image, 0, 0, size, size)
 
 	const { r, g, b, a } = getAvgPixelColor(ctx, 0, 0, size)

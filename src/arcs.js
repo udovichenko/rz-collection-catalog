@@ -12,7 +12,7 @@ async function arcs() {
 	const patterns = await createPatternsFromImages({ ctx, images })
 
 	// console.log(patterns)
-	drawArcs({ patterns,  ctx, width: canvas.width, height: canvas.height, iterations: ITERATIONS })
+	drawArcs({ patterns, ctx, width: canvas.width, height: canvas.height, count: ITERATIONS })
 }
 
 await arcs()

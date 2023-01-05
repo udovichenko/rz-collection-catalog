@@ -2,9 +2,10 @@ import getTriangleCenter from './getTriangleCenter.js'
 import getTriangleArea from './getTriangleArea.js'
 import getAvgPixelColor from './getAvgPixelColor.js'
 import getLightnessFromRgb from './getLightnessFromRgb.js'
+import getClosestPatternByLightness from './getPatternByLightness.js'
 
-export function drawPenrosedImage({ width, height, patterns, ctx, imageCtx }) {
-	const DEPTH = 6
+export function drawPenrosedImage({ width, height, patterns, ctx, imageCtx, details, noise }) {
+	const DEPTH = details
 	const PHI = (1 + Math.sqrt(5)) / 2
 	const RATIO_T = 1 - 1 / PHI
 	const RATIO_W = PHI / (PHI + 1)
@@ -74,6 +75,10 @@ export function drawPenrosedImage({ width, height, patterns, ctx, imageCtx }) {
 		}
 	}
 
+	function randomPattern() {
+		return patterns[~~(Math.random() * patterns.length)].pattern
+	}
+
 	function runDeflation() {
 		const newTris = []
 		tris.forEach((tri) => {
@@ -138,12 +143,6 @@ export function drawPenrosedImage({ width, height, patterns, ctx, imageCtx }) {
 		drawPass(true)
 	}
 
-	function randPattern(patterns) {
-		return patterns[Math.floor(Math.random() * patterns.length)]
-	}
-
-	window.aaa = []
-
 	function drawPass(antialias) {
 		let offset = antialias ? 0.5 : 0
 		tris.forEach((tri) => {
@@ -168,14 +167,15 @@ export function drawPenrosedImage({ width, height, patterns, ctx, imageCtx }) {
 
 			const avgColor = getAvgPixelColor(imageCtx, xcNorm - size / 2, ycNorm - size / 2, size)
 			const avgLightness = getLightnessFromRgb(avgColor)
+			const matchingPattern = getClosestPatternByLightness(patterns, avgLightness, noise)
 
 			ctx.save()
 			// ctx.fillStyle = `rgb(${avgLightness}, ${avgLightness}, ${avgLightness})`
-			ctx.fillStyle = `rgb(${avgColor.r}, ${avgColor.g}, ${avgColor.b})`
-			// ctx.fillStyle = randPattern(patterns)
-			// const randPatternOffsetX = Math.floor(Math.random() * 1000)
-			// const randPatternOffsetY = Math.floor(Math.random() * 1000)
-			// ctx.translate(randPatternOffsetX, randPatternOffsetY)
+			// ctx.fillStyle = `rgb(${avgColor.r}, ${avgColor.g}, ${avgColor.b})`
+			ctx.fillStyle = matchingPattern
+			const randPatternOffsetX = Math.floor(Math.random() * 1000)
+			const randPatternOffsetY = Math.floor(Math.random() * 1000)
+			ctx.translate(randPatternOffsetX, randPatternOffsetY)
 			ctx.fill()
 			ctx.restore()
 
