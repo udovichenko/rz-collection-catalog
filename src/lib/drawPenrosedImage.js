@@ -3,8 +3,11 @@ import getTriangleArea from './getTriangleArea.js'
 import getAvgPixelColor from './getAvgPixelColor.js'
 import getLightnessFromRgb from './getLightnessFromRgb.js'
 import getClosestPatternByLightness from './getPatternByLightness.js'
+import noisifyValue from './noisifyValue.js'
 
-export function drawPenrosedImage({ width, height, patterns, ctx, imageCtx, details, noise }) {
+export function drawPenrosedImage({ width, height, patterns, ctx, imageCtx, details, noise, mode = 'underlayIsTexture' }) {
+	// const mode = 'underlayIsGaps' // 'underlayIsTexture' || fade
+
 	const DEPTH = details
 	const PHI = (1 + Math.sqrt(5)) / 2
 	const RATIO_T = 1 - 1 / PHI
@@ -21,7 +24,7 @@ export function drawPenrosedImage({ width, height, patterns, ctx, imageCtx, deta
 
 	function draw() {
 		if (invalidated) {
-			ctx.fillStyle = '#000'
+			ctx.fillStyle = '#fff'
 			ctx.fillRect(0, 0, width, height)
 
 			ctx.resetTransform()
@@ -139,8 +142,7 @@ export function drawPenrosedImage({ width, height, patterns, ctx, imageCtx, deta
 
 	function drawTris() {
 		drawPass()
-		drawPass(true)
-		drawPass(true)
+		// drawPass(true)
 	}
 
 	function drawPass(antialias) {
@@ -158,6 +160,9 @@ export function drawPenrosedImage({ width, height, patterns, ctx, imageCtx, deta
 			ctx.lineTo(c.x + offset, c.y + offset)
 			ctx.closePath()
 
+			// ctx.strokeStyle = '#000'
+			// ctx.stroke()
+
 			const [xc, yc] = getTriangleCenter(a.x, a.y, b.x, b.y, c.x, c.y)
 			const triArea = getTriangleArea(a.x, a.y, b.x, b.y, c.x, c.y)
 			const size = Math.sqrt(triArea)
@@ -167,12 +172,47 @@ export function drawPenrosedImage({ width, height, patterns, ctx, imageCtx, deta
 
 			const avgColor = getAvgPixelColor(imageCtx, xcNorm - size / 2, ycNorm - size / 2, size)
 			const avgLightness = getLightnessFromRgb(avgColor)
-			const matchingPattern = getClosestPatternByLightness(patterns, avgLightness, noise)
+
 
 			ctx.save()
 			// ctx.fillStyle = `rgb(${avgLightness}, ${avgLightness}, ${avgLightness})`
 			// ctx.fillStyle = `rgb(${avgColor.r}, ${avgColor.g}, ${avgColor.b})`
-			ctx.fillStyle = matchingPattern
+			// ctx.fillStyle = matchingPattern
+			// console.log(xc / width)
+
+			// const xFadeProbability = xc / width
+			// console.log( * xc / width)
+
+			if (mode === 'underlayIsGaps') {
+				const randomPattern = patterns[~~(Math.random() * patterns.length)].pattern
+				ctx.fillStyle = randomPattern
+
+				// let gapProbability = avgLightness * Math.random() / 256
+				let gapProbability = noisifyValue(avgLightness / 256, 0.5)
+				if (avgLightness > 254) gapProbability = 1
+				let isGap = gapProbability > 0.3
+
+				// if (xcNorm < width / 2) isGap = 1
+
+				if (isGap) {
+					ctx.fillStyle = `rgb(255, 255, 255)`
+					// ctx.fillStyle = `rgb(0, 0, 0)`
+				}
+				// 	ctx.fillStyle = matchingPattern
+				// }
+			} else if (mode === 'fade') {
+				if (Math.random() * 0.5 < Math.abs(xc / width) || Math.random() * 0.5 < Math.abs(yc / height)) {
+					ctx.fillStyle = `rgb(255, 255, 255)`
+					ctx.fillStyle = `rgb(0, 0, 0)`
+				} else {
+					const matchingPattern = getClosestPatternByLightness(patterns, avgLightness, noise)
+					ctx.fillStyle = matchingPattern
+				}
+			} else {
+				const matchingPattern = getClosestPatternByLightness(patterns, avgLightness, noise)
+				ctx.fillStyle = matchingPattern
+			}
+
 			const randPatternOffsetX = Math.floor(Math.random() * 1000)
 			const randPatternOffsetY = Math.floor(Math.random() * 1000)
 			ctx.translate(randPatternOffsetX, randPatternOffsetY)

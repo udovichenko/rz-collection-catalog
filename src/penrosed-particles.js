@@ -8,11 +8,11 @@ import renderPreviews from './lib/renderPreviews.js'
 async function penrosed(src) {
 	const maxPatternsCount = 350
 	const patternsOffset = 0
-	const width = 3000
-	const height = 3000
-	const details = 6
-	const noise = 0.99
-	const darken = 0.46
+	const width = 4000
+	const height = 4000
+	const details = 8
+	const noise = 0.4
+	const darken = 0.3
 	const lighten = 0.0
 
 	const darkenAfter = 0.1
@@ -29,10 +29,8 @@ async function penrosed(src) {
 	const patterns = await createPatternsFromImagesWithMeta({ ctx, images: patternImages })
 	// const underlayPatterns = await createPatternsFromImagesWithMeta({ ctx: underlayCtx, images: patternImages })
 
-
 	const img = new Image()
-	img.src = 'src/bg/bg-circ3.jpg'
-
+	img.src = 'src/bg/bg-circ2.jpg'
 	await img.decode()
 	underlayCtx.drawImage(img, 0, 0, width, height)
 
@@ -45,8 +43,8 @@ async function penrosed(src) {
 
 	drawPenrosedImage({ width, height, ctx, imageCtx: underlayCtx, patterns, details, noise, mode: 'underlayIsGaps' })
 
-	// ctx.fillStyle = `rgba(0, 0, 0, ${darkenAfter})`
-	// ctx.fillRect(-width / 2, -height / 2, width, height)
+	ctx.fillStyle = `rgba(0, 0, 0, ${darkenAfter})`
+	ctx.fillRect(-width / 2, -height / 2, width, height)
 
 	const { l } = await getImageAvgColor(src)
 	document.body.style.backgroundColor = `rgb(${l}, ${l}, ${l})`
