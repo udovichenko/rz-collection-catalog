@@ -8,14 +8,14 @@ import renderPreviews from './lib/renderPreviews.js'
 async function penrosed(src) {
 	const maxPatternsCount = 350
 	const patternsOffset = 0
-	const width = 4000
-	const height = 4000
+	const width = 2000
+	const height = 3500
 	const details = 8
-	const noise = 0.4
-	const darken = 0.3
+	const noise = 0.1
+	const darken = 0.0
 	const lighten = 0.0
 
-	const darkenAfter = 0.1
+	const darkenAfter = 0.6
 
 	const { ctx } = setupCanvas({ id: 'canvas', width, height })
 	const { ctx: underlayCtx } = setupCanvas({ id: 'underlay', width, height })
@@ -30,7 +30,7 @@ async function penrosed(src) {
 	// const underlayPatterns = await createPatternsFromImagesWithMeta({ ctx: underlayCtx, images: patternImages })
 
 	const img = new Image()
-	img.src = 'src/bg/bg-circ2.jpg'
+	img.src = 'src/bg/img.png'
 	await img.decode()
 	underlayCtx.drawImage(img, 0, 0, width, height)
 

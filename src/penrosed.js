@@ -9,13 +9,13 @@ async function penrosed(src) {
 	const maxPatternsCount = 350
 	const patternsOffset = 0
 	const width = 3000
-	const height = 3000
-	const details = 6
-	const noise = 0.99
-	const darken = 0.46
-	const lighten = 0.0
+	const height = 2000
+	const details = 8
+	const noise = 0.7
+	const darken = 0.2
+	const lighten = 0.2
 
-	const darkenAfter = 0.1
+	const darkenAfter = 0.0
 
 	const { ctx } = setupCanvas({ id: 'canvas', width, height })
 	const { ctx: underlayCtx } = setupCanvas({ id: 'underlay', width, height })
@@ -29,9 +29,8 @@ async function penrosed(src) {
 	const patterns = await createPatternsFromImagesWithMeta({ ctx, images: patternImages })
 	// const underlayPatterns = await createPatternsFromImagesWithMeta({ ctx: underlayCtx, images: patternImages })
 
-
 	const img = new Image()
-	img.src = 'src/bg/bg-circ3.jpg'
+	img.src = 'src/bg/bg7.jpg'
 
 	await img.decode()
 	underlayCtx.drawImage(img, 0, 0, width, height)
@@ -43,7 +42,7 @@ async function penrosed(src) {
 	underlayCtx.fillStyle = `rgba(255, 255, 255, ${lighten})`
 	underlayCtx.fillRect(0, 0, width, height)
 
-	drawPenrosedImage({ width, height, ctx, imageCtx: underlayCtx, patterns, details, noise, mode: 'underlayIsGaps' })
+	drawPenrosedImage({ width, height, ctx, imageCtx: underlayCtx, patterns, details, noise })
 
 	// ctx.fillStyle = `rgba(0, 0, 0, ${darkenAfter})`
 	// ctx.fillRect(-width / 2, -height / 2, width, height)

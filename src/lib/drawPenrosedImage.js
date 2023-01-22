@@ -142,7 +142,7 @@ export function drawPenrosedImage({ width, height, patterns, ctx, imageCtx, deta
 
 	function drawTris() {
 		drawPass()
-		// drawPass(true)
+		drawPass(true)
 	}
 
 	function drawPass(antialias) {
@@ -195,8 +195,8 @@ export function drawPenrosedImage({ width, height, patterns, ctx, imageCtx, deta
 				// if (xcNorm < width / 2) isGap = 1
 
 				if (isGap) {
-					ctx.fillStyle = `rgb(255, 255, 255)`
-					// ctx.fillStyle = `rgb(0, 0, 0)`
+					// ctx.fillStyle = `rgb(255, 255, 255)`
+					ctx.fillStyle = `rgb(0, 0, 0)`
 				}
 				// 	ctx.fillStyle = matchingPattern
 				// }
